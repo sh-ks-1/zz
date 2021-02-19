@@ -1,4 +1,4 @@
-use std::io::Write;
+// use std::io::Write;
 
 pub fn target_ex(whattodo: &super::Todo) -> Vec<std::path::PathBuf>
 {
@@ -148,7 +148,7 @@ fn extract_where() -> std::path::PathBuf
     } 
 
     let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
-    let mut inputparent = match input_filetarget.parent()
+    let inputparent = match input_filetarget.parent()
     {
         Some(a) =>
         {
