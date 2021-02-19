@@ -24,7 +24,7 @@ pub fn tar_or_targz() -> Gzor
         {
             Gzor::Targz
         };
-        dbg!(&reenum);
+        // dbg!(&reenum); 
         return reenum;
     }
     else

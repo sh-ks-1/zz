@@ -3,21 +3,22 @@ use std::io::Write;
 pub fn targetfile(tar_or_targz: &super::Gzor, whattodo: &super::Todo) -> std::path::PathBuf
 {
     println!("");
-    match whattodo
+    let targetpath = match whattodo
     {
         super::Todo::Zip => {
             println!("압축파일로 만들어질 결과물의 경로(이름)");
+            tarfile1(tar_or_targz)
         },
         _ =>
         {
-            println!("대상으로 하는 압축파일 경로(이름)");
+            println!("대상으로 하는 압축파일");
+            tarfile2()
         }
-    }
-    let targetpath = readinput(tar_or_targz);
+    }; 
     targetpath
 }
 
-fn readinput(_tar_or_targz: &super::Gzor) -> std::path::PathBuf
+fn tarfile1(_tar_or_targz: &super::Gzor) -> std::path::PathBuf
 {
     let current_exe_exuct_dir = std::env::current_dir().unwrap();
 
@@ -39,14 +40,60 @@ fn readinput(_tar_or_targz: &super::Gzor) -> std::path::PathBuf
     let mut inputparent = input_filetarget.parent().unwrap();
     if inputparent == std::path::PathBuf::from("")
     {
-        println!("(현재폴더를 대상으로 합니다.)");
+        println!("(현재폴더에 압축파일을 생성합니다.)");
         inputparent = &current_exe_exuct_dir;
     }
 
     let mut inputpath_abs = inputparent.canonicalize().unwrap();
     inputpath_abs = inputpath_abs.join(input_filetarget.file_name().unwrap());
 
-    dbg!(&inputpath_abs);
+    println!("만들어질 압축파일: {:#?}",&inputpath_abs);
+    // dbg!(&inputpath_abs);
 
     input_filetarget
+}
+
+fn tarfile2() -> std::path::PathBuf
+{
+    let current_exe_exuct_dir = std::env::current_dir().unwrap();
+
+    print!("= ");
+    let _ = std::io::stdout().flush();
+
+    let mut userinput = String::new();
+    std::io::stdin().read_line(&mut userinput).unwrap();
+    userinput = userinput.trim().to_string();
+
+    let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
+
+    let mut inputparent = input_filetarget.parent().unwrap();
+    if inputparent == std::path::PathBuf::from("")
+    {
+        inputparent = &current_exe_exuct_dir;
+    }
+
+    // 확인과정
+    let mut inputpath_abs = match inputparent.canonicalize()
+    {
+        Ok(path) => 
+        {
+            path
+        },
+        Err(_) => 
+        {
+            println!("(재입력)");
+            tarfile2()
+        }
+    };
+    
+    inputpath_abs = inputpath_abs.join(input_filetarget.file_name().unwrap());
+
+    // 파일이 있는지 확인
+    if !(inputpath_abs.exists())
+    {
+        println!("파일이 존재하지 않습니다. 재입력 필요");
+        inputpath_abs = tarfile2();
+    }
+
+    inputpath_abs
 }

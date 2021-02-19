@@ -3,6 +3,7 @@
 mod tar1;
 mod tar2;
 mod tar3;
+mod tar4;
 
 pub fn roumain() -> ()
 {
@@ -10,13 +11,22 @@ pub fn roumain() -> ()
     basest.whattodo = tar1::zip_or_unzip();
     basest.gz = tar2::tar_or_targz();
     basest.target_targz = tar3::targetfile(&basest.gz, &basest.whattodo);
+    basest.target_ex = tar4::target_ex(&basest.whattodo);
 
-
-
-    
-    let mut commend = String::from("tar ");
+    let mut commends: Vec<String> = Vec::new();
     {
-        let mut zxc = String::from("-z");
+        let mut zxc = match basest.gz
+        {
+            Gzor::Tar =>
+            {
+                String::from("-")
+            },
+            _ =>
+            {
+                String::from("-z")
+            },
+        };
+
         match basest.whattodo
         {
             Todo::Zip => zxc.push_str("c"),
@@ -25,11 +35,37 @@ pub fn roumain() -> ()
             _ => {}
         };
         zxc.push_str("vf");
-        commend.push_str(&zxc);
+        commends.push(zxc);
     }
+    // commends.push(" ".to_string());
+    commends.push(basest.target_targz.to_str().unwrap().to_string());
+
+    match basest.whattodo
+    {
+        Todo::Unzip =>
+        {
+            commends.push("-C".to_string());
+        },
+        _ => {}
+    };
+
+    for iitem in basest.target_ex.iter()
+    {
+        // commends.push(" ".to_string());
+        commends.push(iitem.to_str().unwrap().to_string());
+    }
+
     // tar -zxvf
     // tar -zcvf
-    dbg!(&commend);
+    println!("");
+    let allcomand = commends.join(" ");
+    println!("실행할 커맨드: tar {}",allcomand);
+
+    let mut shcom = std::process::Command::new("tar");
+    shcom.args(&commends);
+    shcom.status().expect("command 실행 실패");
+    // shcom.spawn().expect("command 실행 실패");
+
 }
 
 #[derive(Debug)]
@@ -55,6 +91,7 @@ struct BaseTargz
     whattodo: Todo,
     gz: Gzor,
     target_targz: std::path::PathBuf,
+    target_ex: Vec<std::path::PathBuf>,
 }
 
 impl BaseTargz
@@ -66,6 +103,7 @@ impl BaseTargz
             whattodo: Todo::None,
             gz: Gzor::None,
             target_targz: std::path::PathBuf::new(),
+            target_ex: Vec::new(),
         };
         newst
     }
