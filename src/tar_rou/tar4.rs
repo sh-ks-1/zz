@@ -32,7 +32,7 @@ pub fn target_ex(whattodo: &super::Todo) -> Vec<std::path::PathBuf>
 // 압축할 목록
 fn toziplist() -> Vec<std::path::PathBuf>
 {
-    let current_exe_exuct_dir = std::env::current_dir().unwrap();
+    let _current_exe_exuct_dir = std::env::current_dir().unwrap();
     println!("압축할 파일/폴더를 입력하세요");
     println!("입력을 끝내고자 한다면 빈칸을 그대로 엔터");
     println!("직전 입력 대상 취소는 -1");
@@ -78,35 +78,35 @@ fn toziplist() -> Vec<std::path::PathBuf>
         // 입력
         let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
 
-        let mut inputparent = input_filetarget.parent().unwrap();
-        if inputparent == std::path::PathBuf::from("")
-        {
-            inputparent = &current_exe_exuct_dir;
-        }
+        // let mut inputparent = input_filetarget.parent().unwrap();
+        // if inputparent == std::path::PathBuf::from("")
+        // {
+        //     inputparent = &current_exe_exuct_dir;
+        // }
         
-        // 확인과정
-        let mut inputpath_abs = match inputparent.canonicalize()
-        {
-            Ok(path) => 
-            {
-                path
-            },
-            Err(_) => 
-            {
-                println!("(재입력)");
-                continue
-            }
-        };
+        // // 확인과정
+        // let mut inputpath_abs = match inputparent.canonicalize()
+        // {
+        //     Ok(path) => 
+        //     {
+        //         path
+        //     },
+        //     Err(_) => 
+        //     {
+        //         println!("(재입력)");
+        //         continue
+        //     }
+        // };
 
-        inputpath_abs = inputpath_abs.join(input_filetarget.file_name().unwrap());
+        // inputpath_abs = inputpath_abs.join(input_filetarget.file_name().unwrap());
 
-        if !(inputpath_abs.exists())
+        if !(input_filetarget.exists())
         {
             println!("(입력한 대상이 존재하지 않음)");
             continue
         };
 
-        listv.push(inputpath_abs);
+        listv.push(input_filetarget);
         // dbg!(&listv);
         println!("목록");
         for (iidx, iitem) in listv.iter().enumerate()
