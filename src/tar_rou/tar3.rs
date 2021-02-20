@@ -25,9 +25,7 @@ fn tarfile1(_tar_or_targz: &super::Gzor) -> std::path::PathBuf
     print!("= ");
     let _ = std::io::stdout().flush();
 
-    let mut userinput = String::new();
-    std::io::stdin().read_line(&mut userinput).unwrap();
-    userinput = userinput.trim().to_string();
+    let userinput: String = crate::read_user_input_as_string();
 
     let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
 
@@ -60,9 +58,7 @@ fn tarfile2() -> std::path::PathBuf
     print!("= ");
     let _ = std::io::stdout().flush();
 
-    let mut userinput = String::new();
-    std::io::stdin().read_line(&mut userinput).unwrap();
-    userinput = userinput.trim().to_string();
+    let userinput: String = crate::read_user_input_as_string();
 
     let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
 

@@ -25,7 +25,6 @@ fn main()
     else if main1arg == "zip"
     {
         zzlib::zip_rou::roumain();
-        
     }
     else if main1arg.contains("압축")
     {
@@ -48,7 +47,12 @@ fn main()
             }
             else if userinput == "2"
             {
+                zzlib::zip_rou::roumain();
                 break
+            }
+            else
+            {
+                continue
             }
         }
     }

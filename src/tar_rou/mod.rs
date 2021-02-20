@@ -9,7 +9,6 @@ mod tar4;
 
 pub fn roumain() -> ()
 {
-
     let mut basest = BaseTargz::new();
     basest.whattodo = tar1::zip_or_unzip();
     basest.gz = tar2::tar_or_targz();
@@ -40,7 +39,6 @@ pub fn roumain() -> ()
         zxc.push_str("vf");
         commends.push(zxc);
     }
-    // commends.push(" ".to_string());
     commends.push(basest.target_targz.to_str().unwrap().to_string());
 
     match basest.whattodo
@@ -54,17 +52,13 @@ pub fn roumain() -> ()
 
     for iitem in basest.target_ex.iter()
     {
-        // commends.push(" ".to_string());
         commends.push(iitem.to_str().unwrap().to_string());
     }
 
-    // tar -zxvf
-    // tar -zcvf
     println!("");
     
     let allcomand = commends.join(" ");
     println!("{}{}실행할 커맨드: tar {}{}", color::Bg(color::White), color::Fg(color::Red), allcomand, style::Reset);
-    // println!("실행할 커맨드: tar {}",allcomand);
 
     println!("");
 

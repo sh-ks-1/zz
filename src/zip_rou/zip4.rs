@@ -5,9 +5,7 @@ pub fn complev() -> u8
 
     loop
     {
-        let mut userinput = String::new();
-        std::io::stdin().read_line(&mut userinput).unwrap();
-        userinput = userinput.trim().to_string();
+        let userinput: String = crate::read_user_input_as_string();  
 
         let isu8 = userinput.parse::<u8>();
         let levelint = match isu8

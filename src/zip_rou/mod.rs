@@ -62,7 +62,6 @@ pub fn roumain() -> ()
 
     for iitem in base.target_ex.iter()
     {
-        // commends.push(" ".to_string());
         commends.push(iitem.to_str().unwrap().to_string());
     }
 

@@ -10,9 +10,7 @@ pub fn tar_or_targz() -> Gzor
     print!("= ");
     let _ = std::io::stdout().flush();
 
-    let mut userinput = String::new();
-    std::io::stdin().read_line(&mut userinput).unwrap();
-    userinput = userinput.trim().to_string();
+    let userinput: String = crate::read_user_input_as_string();
 
     if (userinput == "1") | (userinput == "2")
     {
@@ -24,7 +22,6 @@ pub fn tar_or_targz() -> Gzor
         {
             Gzor::Targz
         };
-        // dbg!(&reenum); 
         return reenum;
     }
     else

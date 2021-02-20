@@ -41,9 +41,7 @@ fn toziplist() -> Vec<std::path::PathBuf>
 
     loop
     {
-        let mut userinput = String::new();
-        std::io::stdin().read_line(&mut userinput).unwrap();
-        userinput = userinput.trim().to_string();
+        let userinput: String = crate::read_user_input_as_string();
 
         // 중지
         if userinput == ""
@@ -105,27 +103,27 @@ fn extract_where() -> std::path::PathBuf
     let current_exe_exuct_dir = std::env::current_dir().unwrap();
     println!("압축을 풀어낼 폴더를 입력");
 
-    let mut userinput = String::new();
-    
-    loop
+    let userinput_out: String = loop
     {
-        std::io::stdin().read_line(&mut userinput).unwrap();
-        userinput = userinput.trim().to_string();
-        if (userinput == "") | (userinput == ".") | (userinput == "./") 
+        let mut userinput_in: String = crate::read_user_input_as_string();
+
+        if (userinput_in == "") | (userinput_in == ".") | (userinput_in == "./") 
         {
             println!("현제폴더에 풀기");
-            userinput = current_exe_exuct_dir.to_str()
+            userinput_in = current_exe_exuct_dir.to_str()
                 .unwrap()
                 .to_string();
             break
+            userinput_in
         }
         else
         {
             break
+            userinput_in
         }
-    } 
+    };
 
-    let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
+    let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput_out);
     let inputparent = match input_filetarget.parent()
     {
         Some(a) =>
