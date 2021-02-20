@@ -78,28 +78,6 @@ fn toziplist() -> Vec<std::path::PathBuf>
         // 입력
         let input_filetarget: std::path::PathBuf = std::path::PathBuf::from(userinput);
 
-        // let mut inputparent = input_filetarget.parent().unwrap();
-        // if inputparent == std::path::PathBuf::from("")
-        // {
-        //     inputparent = &current_exe_exuct_dir;
-        // }
-        
-        // // 확인과정
-        // let mut inputpath_abs = match inputparent.canonicalize()
-        // {
-        //     Ok(path) => 
-        //     {
-        //         path
-        //     },
-        //     Err(_) => 
-        //     {
-        //         println!("(재입력)");
-        //         continue
-        //     }
-        // };
-
-        // inputpath_abs = inputpath_abs.join(input_filetarget.file_name().unwrap());
-
         if !(input_filetarget.exists())
         {
             println!("(입력한 대상이 존재하지 않음)");
@@ -152,7 +130,6 @@ fn extract_where() -> std::path::PathBuf
     {
         Some(a) =>
         {
-            // dbg!(&a);
             if a.to_str() == Some("")
             {
                 &current_exe_exuct_dir
@@ -166,28 +143,8 @@ fn extract_where() -> std::path::PathBuf
     };
     let mut inputpath_abs = inputparent.canonicalize().unwrap();
 
-    // 확인과정
-    // let mut inputpath_abs = match inputparent.canonicalize()
-    // {
-    //     Ok(path) => 
-    //     {
-    //         path
-    //     },
-    //     Err(_) => 
-    //     {
-    //         println!("(재입력)");
-    //         extract_where()
-    //     }
-    // };
-
     inputpath_abs = inputpath_abs.join(input_filetarget.file_name().unwrap());
 
-    // if !(inputpath_abs.exists())
-    // {
-    //     println!("(입력한 대상이 존재하지 않음)");
-    //     inputpath_abs = extract_where();
-    // };
-        
     println!("압축을 풀고자하는 경로: {:?}",&inputpath_abs);
     inputpath_abs
 }

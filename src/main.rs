@@ -1,5 +1,6 @@
 use std::env;
 use std::process;
+use std::io::Write;
 
 use zzlib;
 
@@ -23,12 +24,33 @@ fn main()
     }
     else if main1arg == "zip"
     {
-
+        zzlib::zip_rou::roumain();
+        
     }
     else if main1arg.contains("압축")
     {
-
+        loop
+        {
+            println!("");
+            println!("1) tar/targz 압축, 압축풀기");
+            println!("2) zip/unzip 압축, 압축풀기");
+            print!("= ");
+            let _ = std::io::stdout().flush();
+            
+            let mut userinput = String::new();
+            std::io::stdin().read_line(&mut userinput).unwrap();
+            userinput = userinput.trim().to_string();
+            
+            if userinput == "1"
+            {
+                zzlib::tar_rou::roumain();
+                break
+            }
+            else if userinput == "2"
+            {
+                break
+            }
+        }
     }
-
 
 }
