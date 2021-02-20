@@ -1,5 +1,7 @@
 // tar압축을 위한 함수
 
+use termion::{color,style};
+
 mod tar1;
 mod tar2;
 mod tar3;
@@ -7,6 +9,7 @@ mod tar4;
 
 pub fn roumain() -> ()
 {
+
     let mut basest = BaseTargz::new();
     basest.whattodo = tar1::zip_or_unzip();
     basest.gz = tar2::tar_or_targz();
@@ -58,8 +61,12 @@ pub fn roumain() -> ()
     // tar -zxvf
     // tar -zcvf
     println!("");
+    
     let allcomand = commends.join(" ");
-    println!("실행할 커맨드: tar {}",allcomand);
+    println!("{}{}실행할 커맨드: tar {}{}", color::Bg(color::White), color::Fg(color::Red), allcomand, style::Reset);
+    // println!("실행할 커맨드: tar {}",allcomand);
+
+    println!("");
 
     let mut shcom = std::process::Command::new("tar");
     shcom.args(&commends);
